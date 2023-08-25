@@ -22,21 +22,31 @@ refs.loadMoreBtn.addEventListener('click', onLoadMoreBtn);
 async function onSubmit(evt) {
   evt.preventDefault();
   const searchQuery = evt.target.elements.searchQuery.value.trim();
+  pixabayApi.resetPage();
   if (!searchQuery) {
     return alert('empty');
   }
 
   pixabayApi.query = searchQuery;
-  pixabayApi.page = 1;
+  // pixabayApi.page = 1;
 
   try {
-    const response = await pixabayApi.getPhotosByQuery();
+    const response = await pixabayApi.getPhotosByQuery().then();
+    // console.log(response.data);
+    if (response.data.totalHits <= 0) {
+      // console.log('nol');
+      alert(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      return;
+    }
     // console.log(response);
     alert(`Hooray! We found totalHits ${response.data.totalHits} images.`);
     const markup = createMarkup(response.data.hits).join(' ');
     refs.container.innerHTML = markup;
 
     lightbox.refresh();
+    // pixabayApi.page += 1;
 
     if (response.data.totalHits < pixabayApi.perPage) {
       refs.loadMoreBtn.classList.add('is-hidden');
@@ -50,7 +60,16 @@ async function onSubmit(evt) {
   }
 }
 
-function onLoadMoreBtn(ent) {}
+async function onLoadMoreBtn(evt) {
+  pixabayApi.page += 1;
+  const response = await pixabayApi.getPhotosByQuery().then();
+  console.log(response.data);
+
+  const markup = createMarkup(response.data.hits).join(' ');
+  console.log(markup);
+  // // refs.container.innerHTML = markup;
+  refs.container.insertAdjacentHTML('beforeend', markup);
+}
 
 function createMarkup(arr) {
   return arr.map(
