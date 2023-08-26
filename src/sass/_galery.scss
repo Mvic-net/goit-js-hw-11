@@ -10,6 +10,7 @@
 }
 
 input {
+  max-width: 480px;
   height: 40px;
   flex-grow: 1;
   font-size: 18px;
@@ -36,6 +37,9 @@ button,
 }
 
 .load-more.is-hidden {
+  display: none;
+}
+.is-hidden {
   display: none;
 }
 
