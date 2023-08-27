@@ -12,12 +12,12 @@ const refs = {
   searchBtn: document.querySelector('.search-btn'),
 };
 
+refs.form.addEventListener('submit', onSubmit);
+refs.loadMoreBtn.addEventListener('click', onLoadMoreBtn);
+
 const lightbox = new SimpleLightbox('.gallery a', {
   /* options */
 });
-
-refs.form.addEventListener('submit', onSubmit);
-refs.loadMoreBtn.addEventListener('click', onLoadMoreBtn);
 
 async function onSubmit(evt) {
   searchBtnAddHidden();
