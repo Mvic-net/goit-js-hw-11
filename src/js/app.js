@@ -42,6 +42,9 @@ async function onSubmit(evt) {
       );
       searchBtnRemoveHidden();
       loadMoreBtnAddHidden();
+      // refs.container.innerHTML = ' ';
+
+      lightbox.refresh();
 
       return;
     }
@@ -71,6 +74,7 @@ async function onSubmit(evt) {
 async function onLoadMoreBtn(evt) {
   pixabayApi.page += 1;
   const response = await pixabayApi.getPhotosByQuery().then();
+  namberOfPageAddLoadMoreButton();
 
   if (response.data.hits.length < pixabayApi.perPage) {
     Notify.warning(`Sorry, it's all...`);
@@ -130,4 +134,16 @@ function loadMoreBtnAddHidden() {
 
 function loadMoreBtnRemoveHidden() {
   refs.loadMoreBtn.classList.remove('is-hidden');
+}
+
+async function namberOfPageAddLoadMoreButton() {
+  const response = await pixabayApi.getPhotosByQuery().then();
+  loadMoreBtnAddHidden();
+  if (
+    pixabayApi.page < Math.ceil(response.data.totalHits / pixabayApi.perPage)
+  ) {
+    loadMoreBtnRemoveHidden();
+  }
+  console.log(pixabayApi.page);
+  console.log(Math.ceil(response.data.totalHits / pixabayApi.perPage));
 }
