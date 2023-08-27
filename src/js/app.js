@@ -144,6 +144,4 @@ async function namberOfPageAddLoadMoreButton() {
   ) {
     loadMoreBtnRemoveHidden();
   }
-  // console.log(pixabayApi.page);
-  // console.log(Math.ceil(response.data.totalHits / pixabayApi.perPage));
 }
