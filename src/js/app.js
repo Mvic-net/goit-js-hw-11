@@ -25,8 +25,10 @@ async function onSubmit(evt) {
   const searchQuery = evt.target.elements.searchQuery.value.trim();
   pixabayApi.resetPage();
   if (!searchQuery) {
+    loadMoreBtnAddHidden();
     Notify.warning(`Specify search criteria.`);
     searchBtnRemoveHidden();
+    refs.container.innerHTML = ' ';
 
     return;
   }
@@ -42,7 +44,7 @@ async function onSubmit(evt) {
       );
       searchBtnRemoveHidden();
       loadMoreBtnAddHidden();
-      // refs.container.innerHTML = ' ';
+      refs.container.innerHTML = ' ';
 
       lightbox.refresh();
 
@@ -68,6 +70,7 @@ async function onSubmit(evt) {
     console.error(error);
     Notify.failure(`message: ${error}; code: ${error.code}`);
     searchBtnRemoveHidden();
+    refs.container.innerHTML = ' ';
   }
 }
 
